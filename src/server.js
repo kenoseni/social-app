@@ -7,6 +7,9 @@ import cors from "cors";
 import helmet from "helmet";
 import Template from "../template";
 
+import userRoutes from "./routes/user";
+import authRoutes from "./routes/auth";
+
 // comment it out before building for production
 import devBundle from "./devBundle";
 
@@ -27,8 +30,21 @@ app.use(cors());
 
 app.use("/dist", express.static(path.join(CURRENT_WORKING_DIRECTORY, "dist")));
 
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
+
 app.get("/", (req, res) => {
   res.status(200).send(Template());
+});
+
+// Catch unauthorised errors from express-jwt and other server-side error
+app.use((err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    res.status(401).json({ error: err.name + ": " + err.message });
+  } else if (err) {
+    res.status(400).json({ error: err.name + ": " + err.message });
+    console.log(err);
+  }
 });
 
 export default app;

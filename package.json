@@ -21,6 +21,7 @@
     "express-jwt": "^7.7.5",
     "helmet": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "mongodb": "^4.10.0",
     "mongoose": "^6.6.2",
     "node-polyfill-webpack-plugin": "^2.0.1",
