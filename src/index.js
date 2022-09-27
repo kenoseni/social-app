@@ -1,39 +1,18 @@
-import express from "express";
-import path from "path";
-import { MongoClient } from "mongodb";
-import template from "../template";
+import mongoose from "mongoose";
+import config from "../config/config";
+import app from "./server";
 
-// comment it out before building for production
-import devBundle from "./devBundle";
-
-const app = express();
-// comment it out before building for production
-devBundle.compile(app);
-
-const CURRENT_WORKING_DIRECTORY = process.cwd();
-
-app.use("/dist", express.static(path.join(CURRENT_WORKING_DIRECTORY, "dist")));
-
-app.get("/", (req, res) => {
-  res.status(200).send(template());
+mongoose.Promise = global.Promise;
+mongoose.connect(config.mongoUri, () => {
+  console.log("Connected successfully to mongodb server");
+});
+mongoose.connection.on("error", () => {
+  throw new Error(`unable to connect to database: ${config.mongoUri}`);
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, (err) => {
+app.listen(config.port, (err) => {
   if (err) {
     console.log(err);
   }
-  console.info("Server started on port %s.", port);
+  console.info("Server started on port %s.", config.port);
 });
-
-// Database Connection URL
-const url = process.env.MONGODB_URI || "mongodb://localhost:27017/mernSetup";
-// Use connect method to connect to the server
-MongoClient.connect(
-  url,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  (err, db) => {
-    console.log("Connected successfully to mongodb server");
-    db.close();
-  }
-);
