@@ -7,7 +7,8 @@ const CURRENT_WORKING_DIRECTORY = process.cwd();
 const config = {
   name: "browser",
   mode: "development", // sets process.env.NODE_ENV to the given value, defaults to production if not set
-  devtool: "eval-source-map", //specifies how source maps are generated
+  // devtool: "eval-source-map", //specifies how source maps are generated
+  devtool: "cheap-module-source-map",
   entry: [
     "webpack-hot-middleware/client?reload=true",
     path.join(CURRENT_WORKING_DIRECTORY, "./client/main.js"),
@@ -23,6 +24,10 @@ const config = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: ["babel-loader"],
+      },
+      {
+        test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
+        use: "file-loader",
       },
     ],
   },
