@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -39,7 +40,7 @@ export const Home = () => {
   return (
     <Card className={classes.card}>
       <Typography variant="h6" className={classes.title}>
-        Home Page
+        Home Page <Link to="/users">Users</Link>
       </Typography>
       <CardMedia
         className={classes.media}
