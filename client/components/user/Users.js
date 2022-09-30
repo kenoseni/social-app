@@ -15,10 +15,14 @@ import Person from "@material-ui/icons/Person";
 import { list } from "./api-user";
 
 const useStyles = makeStyles((theme) => ({
-  root: theme.mixins.gutters({
-    padding: theme.spacing(1),
-    margin: theme.spacing(5),
-  }),
+  root: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+    },
+  },
   title: {
     margin: `${theme.spacing(4)}px 0 ${theme.spacing(2)}px`,
     color: theme.palette.openTitle,

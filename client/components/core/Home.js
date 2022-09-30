@@ -40,7 +40,8 @@ export const Home = () => {
   return (
     <Card className={classes.card}>
       <Typography variant="h6" className={classes.title}>
-        Home Page <Link to="/users">Users</Link>
+        Home Page <Link to="/users">Users</Link>{" "}
+        <Link to="/signup">Register</Link>
       </Typography>
       <CardMedia
         className={classes.media}

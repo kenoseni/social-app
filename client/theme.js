@@ -1,5 +1,5 @@
 import { createTheme } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
+import { green, red } from "@material-ui/core/colors";
 
 const theme = createTheme({
   typography: {
@@ -18,8 +18,8 @@ const theme = createTheme({
       dark: "#1b5e20",
       contrastText: "#000",
     },
-    openTitle: "#3f4771",
-    protectedTitle: green["400"],
+    openTitle: "#388e3c",
+    protectedTitle: red["400"],
     type: "light",
   },
 });
