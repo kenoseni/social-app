@@ -34,7 +34,7 @@ const read = async (params, credentials, signal) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
+        Authorization: `Bearer ${credentials.t}`,
       },
     });
     return await response.json();
