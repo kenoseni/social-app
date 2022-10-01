@@ -7,10 +7,12 @@ import { Signin } from "./components/auth/Signin";
 import { Profile } from "./components/user/Profile";
 import { PrivateRoute } from "./components/auth/PrivateRoute";
 import { EditProfile } from "./components/user/EditProfile";
+import { Menu } from "./components/core/Menu";
 
 export const MainRouter = () => {
   return (
     <div>
+      <Menu />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/users" element={<Users />} />

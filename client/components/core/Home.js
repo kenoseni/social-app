@@ -39,10 +39,6 @@ export const Home = () => {
 
   return (
     <Card className={classes.card}>
-      <Typography variant="h6" className={classes.title}>
-        Home Page <Link to="/users">Users</Link>{" "}
-        <Link to="/signup">Register</Link> <Link to="/signin">Signin</Link>
-      </Typography>
       <CardMedia
         className={classes.media}
         image={socialImage}
