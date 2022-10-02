@@ -55,6 +55,11 @@ export const Profile = () => {
       abortController.abort();
     };
   }, [userId]);
+
+  const photoUrl = user._id
+    ? `/api/users/photo/${user._id}?${new Date().getTime()}`
+    : "/api/users/defaultphoto";
+
   if (redirectToSignin) {
     return <Navigate to="/signin" />;
   }
@@ -66,7 +71,7 @@ export const Profile = () => {
       <List dense>
         <ListItem>
           <ListItemAvatar>
-            <Avatar>
+            <Avatar src={photoUrl}>
               <Person />
             </Avatar>
           </ListItemAvatar>
@@ -86,7 +91,8 @@ export const Profile = () => {
         <Divider />
         <ListItem>
           <ListItemText
-            primary={`Joined: ${new Date(user.created).toDateString()}`}
+            primary={user.about}
+            secondary={"Joined: " + new Date(user.created).toDateString()}
           />
         </ListItem>
       </List>

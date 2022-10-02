@@ -6,6 +6,8 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
+import Avatar from "@material-ui/core/Avatar";
+import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 import { makeStyles } from "@material-ui/core/styles";
 import auth from "./../auth/auth-helper";
 import { read, update } from "./api-user.js";
@@ -35,6 +37,17 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     marginBottom: theme.spacing(2),
   },
+  bigAvatar: {
+    width: 60,
+    height: 60,
+    margin: "auto",
+  },
+  input: {
+    display: "none",
+  },
+  filename: {
+    marginLeft: "10px",
+  },
 }));
 
 export const EditProfile = () => {
@@ -42,6 +55,7 @@ export const EditProfile = () => {
   const [values, setValues] = useState({
     name: "",
     password: "",
+    about: "",
     email: "",
     open: false,
     error: "",
@@ -58,7 +72,12 @@ export const EditProfile = () => {
     if (data && data.error) {
       setValues({ ...values, error: data.error });
     } else {
-      setValues({ ...values, name: data.name, email: data.email });
+      setValues({
+        ...values,
+        name: data.name,
+        email: data.email,
+        about: data.about,
+      });
     }
 
     return function cleanup() {
@@ -67,11 +86,13 @@ export const EditProfile = () => {
   }, [userId]);
 
   const handleSubmit = async () => {
-    const user = {
-      name: values.name || undefined,
-      email: values.email || undefined,
-      password: values.password || undefined,
-    };
+    let userData = new FormData();
+    values.name && userData.append("name", values.name);
+    values.email && userData.append("email", values.email);
+    values.password && userData.append("password", values.password);
+    values.about && userData.append("about", values.about);
+    values.photo && userData.append("photo", values.photo);
+
     const data = await update(
       {
         userId,
@@ -79,7 +100,7 @@ export const EditProfile = () => {
       {
         t: jwt.token,
       },
-      user
+      userData
     );
     if (data && data.error) {
       setValues({ ...values, error: data.error });
@@ -88,24 +109,60 @@ export const EditProfile = () => {
     }
   };
   const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
+    const value = name === "photo" ? event.target.files[0] : event.target.value;
+    setValues({ ...values, [name]: value });
   };
+
+  const photoUrl = userId
+    ? `/api/users/photo/${userId}?${new Date().getTime()}`
+    : "/api/users/defaultphoto";
 
   if (values.redirectToProfile) {
     return <Navigate to={`/user/${values.userId}`} />;
   }
+
   return (
     <Card className={classes.card}>
       <CardContent>
         <Typography variant="h6" className={classes.title}>
           Edit Profile
         </Typography>
+        <Avatar src={photoUrl} className={classes.bigAvatar} />
+        <br />
+        <input
+          accept="image/*"
+          onChange={handleChange("photo")}
+          className={classes.input}
+          id="icon-button-file"
+          type="file"
+        />
+        <label htmlFor="icon-button-file">
+          <Button variant="contained" color="default" component="span">
+            Upload
+            <FileUpload />
+          </Button>
+        </label>{" "}
+        <span className={classes.filename}>
+          {values.photo ? values.photo.name : ""}
+        </span>
+        <br />
         <TextField
           id="name"
           label="Name"
           className={classes.textField}
           value={values.name}
           onChange={handleChange("name")}
+          margin="normal"
+        />
+        <br />
+        <TextField
+          id="multiline-flexible"
+          label="About"
+          multiline
+          minRows="2"
+          value={values.about}
+          onChange={handleChange("about")}
+          className={classes.textField}
           margin="normal"
         />
         <br />
