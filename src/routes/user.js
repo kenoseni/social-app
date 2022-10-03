@@ -16,6 +16,8 @@ router
   .route("/unfollow")
   .put(auth.requireAuth, user.removeFollowing, user.removeFollower);
 
+router.route("/findpeople/:userId").get(auth.requireAuth, user.findPeople);
+
 router
   .route("/:userId")
   .get(auth.requireAuth, user.read)
