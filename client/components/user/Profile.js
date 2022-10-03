@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Navigate, Link, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
@@ -15,9 +16,8 @@ import Divider from "@material-ui/core/Divider";
 import { DeleteUser } from "./DeleteUser";
 import auth from "./../auth/auth-helper";
 import { read } from "./api-user.js";
-import { Navigate, Link, useParams } from "react-router-dom";
 import { FollowButton } from "./FollowButton";
-import { values } from "lodash";
+import { ProfileTabs } from "./ProfileTabs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +41,6 @@ export const Profile = () => {
     redirectToSignin: false,
     following: false,
   });
-  // const [redirectToSignin, setRedirectToSignin] = useState(false);
   const jwt = auth.isAuthenticated();
 
   const { userId } = useParams();
@@ -137,6 +136,7 @@ export const Profile = () => {
           />
         </ListItem>
       </List>
+      <ProfileTabs user={values.user} />
     </Paper>
   );
 };

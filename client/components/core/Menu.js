@@ -11,7 +11,7 @@ import { withRouter } from "../hoc/withRouter";
 
 const isActive = (router, path) => {
   if (router.location.pathname == path) {
-    return { color: "#ff4081" };
+    return { color: "#b40a43" };
   } else {
     return { color: "#fff" };
   }
